@@ -6,8 +6,11 @@ try:
     from langchain_huggingface import HuggingFaceEmbeddings
 except ImportError:
     from langchain_community.embeddings import HuggingFaceEmbeddings
+try:
+    MY_GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
+except (FileNotFoundError, KeyError):
+    MY_GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
-MY_GOOGLE_API_KEY = "AIzaSyD4uZptlyCibdkrOAv9Xt1F-azSHRyQ-jY"
 MY_GOOGLE_MODEL = os.environ.get("GOOGLE_MODEL", "models/gemini-2.0-flash")
 
 def load_vectorstore(vectorstore_path="vectorstore"):
@@ -55,3 +58,4 @@ Answer:"""
     
 
     return RAGChain(retriever, llm, PROMPT)
+
